@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".sellersignup">
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        >
+        <Button
+            android:id="@+id/uploadpic"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginRight="15dp"
+            android:background=" #27a1bf"
+            android:text="Upload product Photo"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <TextView
+
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
+            android:id="@+id/sellername"
+            android:textStyle="bold"
+            android:text="Shop Name"
+            android:textColor="#27a1bf"
+            android:layout_width="80dp"
+            android:layout_height="40dp" />
+
+        <EditText
+            android:id="@+id/sellerfirstname"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="130dp"
+
+            android:layout_height="20dp"
+            android:padding="5dp"
+            android:inputType="text" />
+
+        <TextView
+
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/mobileno"
+            android:textStyle="bold"
+            android:text="Mobile"
+            android:textColor="#27a1bf"
+            android:layout_width="130dp"
+
+            android:layout_height="40dp" />
+
+        <EditText
+            android:id="@+id/entermobileno"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="130dp"
+
+            android:layout_height="20dp"
+
+            android:padding="5dp"
+            android:inputType="text" />
+
+
+        <TextView
+
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/firstname4"
+            android:textStyle="bold"
+            android:text="E-mail"
+            android:layout_width="80dp"
+            android:textColor="#27a1bf"
+            android:layout_height="40dp" />
+
+        <EditText
+            android:id="@+id/enterfirstname4"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="130dp"
+
+            android:layout_height="20dp"
+
+            android:padding="5dp"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/signup"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginRight="15dp"
+            android:background=" #27a1bf"
+            android:text="Sign Up"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="170dp"
+            android:layout_height="130dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/sellerpic"
+
+            android:scaleType="fitXY" />
+
+
+        <TextView
+
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/firstname6"
+            android:textStyle="bold"
+            android:text="Seller Name"
+            android:layout_width="80dp"
+            android:textColor="#27a1bf"
+            android:layout_height="40dp" />
+
+        <EditText
+            android:id="@+id/enterfirstname6"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="130dp"
+
+            android:layout_height="20dp"
+            android:padding="5dp"
+            android:inputType="text" />
+
+        <TextView
+
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/firstname7"
+            android:textStyle="bold"
+            android:textColor="#27a1bf"
+            android:text="Average Delivery time to Courier"
+            android:layout_width="110dp"
+
+            android:layout_height="40dp" />
+
+        <EditText
+            android:id="@+id/enterfirstname7"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="130dp"
+
+            android:layout_height="20dp"
+
+            android:padding="5dp"
+            android:inputType="text" />
+
+
+
+        <TextView
+
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/firstname9"
+            android:textStyle="bold"
+            android:text="Shop Location"
+            android:textColor="#27a1bf"
+            android:layout_width="130dp"
+
+            android:layout_height="40dp" />
+
+        <EditText
+            android:id="@+id/enterfirstname9"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="130dp"
+
+            android:layout_height="20dp"
+
+            android:padding="5dp"
+            android:inputType="text" />
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+
+
+
+
+
