@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".shopitems">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="60dp"
+                android:id="@+id/ezbtnaghee"
+                android:background="@drawable/ezbetnaghee"
+                android:scaleType="fitXY"
+                />
+            <TextView
+
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gheediscription"
+                android:textStyle="bold"
+                android:text="1 KG ghee"
+                android:textColor="#27a1bf"
+
+                />
+            <TextView
+
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gheeprice"
+                android:textStyle="bold"
+                android:text="135EGP"
+                android:textColor="#27a1bf"
+                />
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+android:layout_marginTop="10dp"
+                android:layout_marginLeft="60dp"
+                android:id="@+id/zebdafarm"
+                android:background="@drawable/ezbetnaduck"
+                android:scaleType="fitXY"
+                />
+                <TextView
+
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/duckdescription"
+                    android:textStyle="bold"
+                    android:text="1 KG Baladi Duck"
+                    android:textColor="#27a1bf"
+                    />
+                <TextView
+
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/duckprice"
+                    android:textStyle="bold"
+                    android:text="60 EGP"
+                    android:textColor="#27a1bf"
+                    />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Le Bazaar V1</string>
+    <string name="xyz">xyz</string>
+    <string name="fashion">Fashion</string>
+    <string name="Decor">decor</string>
+    <string name="Leather">leather</string>
+    <string name="Farm">farmmm</string>
+    <string name="title_activity_loginpage">loginpage</string>
+    <string name="title_activity_signinpage">signinpage</string>
+    <string name="title_activity_signup">signup</string>
+    <string name="title_activity_shopitems">shopitems</string>
+    <string name="title_activity_showitems">showitems</string>
+    <string name="title_activity_usercart">usercart</string>
+    <string name="title_activity_sellersignup">sellersignup</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="app_label">Search</string>
+    <string name="search_hint">Search Me</string>
+    <string name="search">Search</string>
+</resources>
