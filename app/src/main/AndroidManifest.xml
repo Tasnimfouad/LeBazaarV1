@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".item0"></activity>
+        <activity android:name=".shopitems2"></activity>
+        <activity android:name=".item0" />
         <activity
             android:name=".SplashScreen"
             android:label="SplashScreen"
@@ -50,7 +51,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:label="Le Bazaar"></activity>
+            android:label="Le Bazaar" />
     </application>
 
 </manifest>

@@ -18,6 +18,7 @@ import java.util.Map;
 import static com.example.lebazaarv1.R.layout.activity_main;
 
 public class CustomList extends SimpleAdapter {
+    //adapter for search
  //   MyAsyncTask myAsyncTaskObj = MyAsyncTask.getInstance();
 
     public CustomList(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to){

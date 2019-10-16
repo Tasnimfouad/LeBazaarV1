@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     public static TextView txtJson;
     static String s2;
     // ImageView image1 = (ImageView) findViewById(R.id.imageViewmain);
-    public static ListView mListView;
+   // public static ListView mListView;
     Context context=this;
   // public static ListView mListView1;
     //ProgressDialog pd;
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 checker = false;
             }
         }
-        mListView = (ListView) findViewById( R.id.listv );
+       // mListView = (ListView) findViewById( R.id.listv );
         //neww gett=new neww();
        //info=gett.getneww();
 //info= new String[]{"1", "2", "3"};
@@ -104,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
        CustomList arrayAdapter = new CustomList(this, listnew, R.layout.listrow, new String[] {"name","description"}, new int[] {R.id.textView,R.id.textView1});
        // Picasso.get().load("http://www.letriobazaar.com/Images/Category/Farm.png").into(image1);
         myListView.setAdapter(arrayAdapter);
-        //customAdapter adapter=new customAdapter(context,info2);//context,info2
+       // customAdapter adapter=new customAdapter(context,info2);//context,info2
        //mListView.setAdapter( adapter);
 
-        mListView.setClickable( true );
+        myListView.setClickable( true );
         // mListView1=(ListView)findViewById( R.id.listView1 );
         //CustomAdapter customAdapter1=new CustomAdapter(this);
         //  mListView1.setAdapter( customAdapter1 );
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         // Picasso.load("http://www.letriobazaar.com/Images/Category/Farm.png").into(image1);
         //Picasso.get().load("http://www.letriobazaar.com/Images/Category/Farm.png").into(image1);
 
-        mListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+        myListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView <?> parent, View view, int position, long id) {
 
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 if (position == 0) {
 //TextView txt=(TextView)findViewById( R.id.textView );
 //txt.setText( "ccc" );
-                    Intent myIntent = new Intent( view.getContext(), shopitems.class );
+                    Intent myIntent = new Intent( view.getContext(), shopitems2.class );
                     startActivityForResult( myIntent, 0 );
 
                 }

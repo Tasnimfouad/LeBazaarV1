@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.lebazaarv1.MainActivity.mListView;
+//import static com.example.lebazaarv1.MainActivity.mListView;
 
 public class MyAsyncTask extends AsyncTask<Void,Void,Void> {
 
