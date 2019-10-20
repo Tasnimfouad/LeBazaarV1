@@ -89,13 +89,16 @@
 
 
                 />
+
             <TextView
                 android:id="@+id/textViewsearch"
                 android:layout_width="300dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                app:fontFamily="@font/lato_thin" />
 
         </LinearLayout>
 
