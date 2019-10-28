@@ -18,8 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.lebazaarv1.MyAsyncTask.lineName;
-import static com.example.lebazaarv1.MyAsyncTask.lineName2;
 
 
 public class customAdapter extends SimpleAdapter {

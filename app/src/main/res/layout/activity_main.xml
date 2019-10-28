@@ -79,14 +79,14 @@
             android:weightSum="1">
 
 
-            <ListView
-                android:layout_width="360dp"
-                android:layout_height="590dp"
+
+            <android.support.v7.widget.RecyclerView
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="2dp"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/listv"
-
-
+                android:layout_marginLeft="2dp"
+                android:id="@+id/recyclerView"
 
                 />
 

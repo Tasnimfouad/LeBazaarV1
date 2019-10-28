@@ -57,8 +57,8 @@ public class MyAsyncTask extends AsyncTask<Void,Void,Void> {
 //ImageView here=MainActivity.image1;
    // static ArrayList<String> tubeLines = new ArrayList<String>();
     //static ArrayList<String> tubeLines2 = new ArrayList<String>();
-   static List<Map<String, Object>> listnew = new ArrayList<Map<String, Object>>();
-
+  public List<Map<String, Object>> listnew = new ArrayList<Map<String, Object>>();
+    HashMap map = new HashMap <String,Object>();
     int[] imagepath;
   static String[] name,name2;
     ArrayList<String> names;
@@ -66,7 +66,7 @@ public class MyAsyncTask extends AsyncTask<Void,Void,Void> {
     private static MyAsyncTask single_instance = null;
     public int count;
     RequestCreator image;
-    static String lineName,lineName2;
+   String lineName,lineName2;
 //MainActivity mainActivity=new MainActivity();
     // public int[] images={R.drawable.homedesign,R.drawable.homedesign,R.drawable.ic_launcher_background,R.drawable.homedesign};
     // public String[] names={"Ya nass","leather","Sofia","Bazooka"};
@@ -83,7 +83,7 @@ int i=0;
     protected Void doInBackground(Void... voids) {
         try {
 
-            URL url = new URL( "http://www.letriobazaar.com/api/Category/GetCategory?fbclid=IwAR2k6PbfjOmOj49T2hf-YCQlcs1iLTcuxxjSOAYpqYtdbU_rJfvV2LGS33Y" );
+            URL url = new URL( "http://www.letriobazaar.com/api/Category/GetCategory" );
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
@@ -105,7 +105,7 @@ int i=0;
             for (int i=0; i<JA.length(); i++) {
                 //x1=JA.get( "Name" );
                // list.add( x1);
-                HashMap map = new HashMap <String,Object>();
+
             //}
 
         //    for(int i=0;i<response.length();i++) {
@@ -115,7 +115,7 @@ int i=0;
             //    Log.i("MyAsyncTask","Json OK");
                 // Get the current line (json object) data
                 // To avoid crash use optString
-                lineName = linee.optString("Name","N/A");
+                lineName = linee.optString("Name" );
                lineName2 = linee.optString("Description","N/A");
                // myimage=Picasso.get().load("http://www.letriobazaar.com/Images/Category/Farm.png");
 
@@ -226,8 +226,8 @@ int i=0;
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute( aVoid );
-
-
+//MainActivity mainActivity=new MainActivity();
+//mainActivity.customm(listnew);
         //if (bmp != null)
         //MainActivity.mImageView.setImageBitmap(bmp);
 
