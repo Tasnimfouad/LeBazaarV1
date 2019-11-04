@@ -7,11 +7,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView1;
     HeroAdapter adapter;
     List <Hero> heroList,heroList2;
-
+    private RecyclerView.LayoutManager mLayoutManager;
     // ImageView image1 = (ImageView) findViewById(R.id.imageViewmain);
     // public static ListView mListView;
     Context context = this;
     // public static ListView mListView1;
     //ProgressDialog pd;
     // String x = "", y;
-
+    private DrawerLayout drawer;
     List <String> info2;
     //String[]  info2={"1","2","3"};
     int i;
@@ -171,9 +177,52 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-       recyclerView = (RecyclerView) findViewById( R.id.recyclerView );
+
+        Toolbar toolbar1=findViewById( R.id.toolbar );
+        setSupportActionBar( toolbar1 );
+        drawer=findViewById( R.id.drawer_layout );
+        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle( this,drawer,toolbar1 ,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+       drawer.addDrawerListener( toggle );
+       toggle.syncState();
+
+        recyclerView = (RecyclerView) findViewById( R.id.recyclerView );
         recyclerView.setHasFixedSize( true );
-       recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
+
+        //mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        //GridLayoutManager glm = new GridLayoutManager(this, );
+       final GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+      gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+
+//                if (position % 3 == 0) {
+//                    Log.e("TAG", "Position: " + position +" position % 3= " + position % 3 + " return 2");
+//                    return 2;
+//                } else {
+//                    Log.e("TAG", "Position: " + position +" position % 3= " + position % 3 + " return 1");
+//                    return 1;
+//                }
+
+                    @Override
+                    public int getSpanSize(int position) {
+
+                        if (position == 0||position==1) {
+                   Log.e("TAG", "Position: " + position +" position % 3= " + position % 3 + " return 2");
+
+                   return 2;
+              } else {
+                            Log.e( "TAG", "Position: " + position + " position % 3= " + position % 3 + " return 1" );
+                            return 1;
+//                }
+                        }
+                        }
+                });
+        recyclerView.setLayoutManager(gridLayoutManager);
+      // recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
+       // recyclerView.setLayoutManager(mLayoutManager);
+
+        // Initialize a new instance of RecyclerView Adapter instance
+     //  ColorAdapter mAdapter = new ColorAdapter(this,colors);
+
+        // Set the adapter for RecyclerView
 
         heroList2 = new ArrayList <>();
 
@@ -330,6 +379,16 @@ public class MainActivity extends AppCompatActivity {
         //  sharingclass.sharedValue=s2;
 
 
+    }
+    @Override
+    public void onBackPressed( ){
+
+        if(drawer.isDrawerOpen( GravityCompat.START )){
+            drawer.closeDrawer( GravityCompat.START );
+        }
+        else {
+        super.onBackPressed();
+        }
     }
 }
 
