@@ -48,7 +48,7 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.HeroViewHolder
         // Set a random color for TextView background
        // holder.linearLayout.setBackgroundColor(getRandomHSVColor());
         // Glide.with(context).load(hero.getImageUrl()).into(holder.imageView);
-        Picasso.get().load( hero.getImageurl() ).into( holder.imageView );
+        Picasso.get().load( "http://www.letriobazaar.com/Images/Category/" +hero.getImagePath()).into( holder.imageView );
 //        holder.linearLayout.setVisibility( View.GONE );
 
         //if the position is equals to the item position which is to be expanded
