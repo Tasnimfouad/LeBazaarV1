@@ -1,9 +1,6 @@
 package com.example.lebazaarv1;
 
 import android.annotation.TargetApi;
-import android.app.Application;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,31 +14,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 
-import android.app.SearchManager;
-
-import android.support.v4.view.MenuItemCompat;
-
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,20 +35,17 @@ import java.util.Map;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
-import io.realm.RealmModel;
-import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.lebazaarv1.R.layout.activity_main;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ListView listview;
     ProgressDialog pd;
     RecyclerView recyclerView;
+    List <Hero> heroList;
     public static TextView txtJson;
     static String s2;
     private StaggeredGridLayoutManager _sGridLayoutManager;
@@ -74,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     final String URL_GET_DATA = "https://simplifiedcoding.net/demos/marvel/";
     RecyclerView recyclerView1;
     HeroAdapter adapter;
-    List <Hero> heroList,heroList2,heroList_search;
+    List <Hero> heroList2,heroList_search;
 
     private RecyclerView.LayoutManager mLayoutManager;
     // ImageView image1 = (ImageView) findViewById(R.id.imageViewmain);
@@ -87,7 +66,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     List <String> info2;
     //String[]  info2={"1","2","3"};
     int i;
-    Realm realm;
+
+
 
     // nameArray[] nameary=new nameArray[count1];
     // String[] info=myAsyncTaskObj.name;
@@ -178,6 +158,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          } );
 
   */
+
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +180,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
           // getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, new MessageFragment() ).commit();
          //  navigationView.setCheckedItem( R.id.nav_message );
       // }
+
+
         recyclerView = (RecyclerView) findViewById( R.id.recyclerView );
         recyclerView.setHasFixedSize( true );
 
@@ -228,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                 });
         recyclerView.setLayoutManager(gridLayoutManager);
+
       // recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
        // recyclerView.setLayoutManager(mLayoutManager);
 
@@ -238,34 +225,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         heroList2 = new ArrayList <>();
         heroList_search=new ArrayList <>(  );
-
+       /* Realm realm=Realm.getDefaultInstance();
+        //.executeTransactionAsync(new Realm.Transaction() {
+        realm.executeTransaction(new Realm.Transaction() {
+                                     @Override
+                                     //  public void execute(Realm bgRealm) {
+                                     public void execute(@NonNull Realm realm) {
+                                         Number currentIDNum = realm.where( Hero.class ).max( "id" );
+                                         int nextId;
+                                         if (currentIDNum == null) {
+                                             nextId = 1;
+                                         } else {
+                                             nextId = currentIDNum.intValue() + 1;
+                                         }*/
         loadHeroes();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void loadHeroes() {
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( Api_test.BASE_URL )
                 .addConverterFactory( GsonConverterFactory.create() ) //Here we are using the GsonConverterFactory to directly convert json data to object
                 .build();
         Api_test api = retrofit.create( Api_test.class );
+
         Call <List <Hero>> call = api.getHeroes();
+
+
         call.enqueue( new Callback <List <Hero>>() {
             @Override
+         //   public void onResponse(Call <List <Hero>> call, Response <List <Hero>> response) {
             public void onResponse(Call <List <Hero>> call, Response <List <Hero>> response) {
-                List <Hero> heroList = response.body();
+                 heroList = response.body();
+      //   RealmList <Hero> realmList = new RealmList <Hero>( (Hero) heroList );
 
-                //Creating an String array for the ListView
-                //String[] heroes = new String[heroList.size()];
-                //    try {
-                //     JSONArray jsonArray = (JSONArray) heroList;
+                HeroRealmm hero_realm = realm.createObject( HeroRealmm.class ,19 );
 
-                //looping through all the heroes and inserting the names inside the string array
+                // add response to realm database
+
                 for (int i = 0; i < heroList.size(); i++) {
+
+
                     //  JSONObject obj = jsonArray.getJSONObject(i);
                     //  heroes[i] = heroList.get( i ).getRealname();
 
-               Hero hero = new Hero(
+                    Hero hero = new Hero(
 
                             heroList.get( i ).getCategoryID(),
                             heroList.get( i ).getName(),
@@ -273,8 +281,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             heroList.get( i ).getDescription()
 
 
-
                     );
+             Log.e( "Tag", "Saved" );
+                   hero_realm.setName( "nam" );
+             hero_realm.setCategoryID( "jj" );
+                    hero_realm.setImagePath( "jj" );
+                   hero_realm.setDescription( "hh" );
+
+// programmatically check : data is inserted in to realm or not
+
+                    heroList2.add( hero );
+
+                }
+                adapter = new HeroAdapter( heroList2, getApplicationContext());
+                recyclerView.setAdapter( adapter );
+
+              //   adapter = new HeroAdapter( heroList2, getApplicationContext() );
+                //recyclerView.setAdapter( adapter );
+          realm.copyToRealmOrUpdate( hero_realm);
+            realm.commitTransaction();
+
+
+               realm.close();
+
+
+              //  Realm realm = Realm.getDefaultInstance();
+
+              /*  try {
+                    RealmConfiguration config2 = new RealmConfiguration.Builder()
+                            .deleteRealmIfMigrationNeeded()
+                            .build();
+
+
+                    realm = Realm.getInstance(config2);
+                } catch (RealmMigrationNeededException r) {
+                    Realm.deleteRealm( realm.getConfiguration() );
+                    realm = Realm.getInstance(realm.getConfiguration());
+                }*/
+
+      //      realm.delete( HeroRealmm.class ); // Remove older values first
+
+
+
+
+                //Creating an String array for the ListView
+                //String[] heroes = new String[heroList.size()];
+                //    try {
+                //     JSONArray jsonArray = (JSONArray) heroList;
+
+                //looping through all the heroes and inserting the names inside the string array
+             //   realm.beginTransaction();
+            //   HeroRealmm hero_realm = realm.createObject( HeroRealmm.class, "10" );
+
+
+                  //realm.insertOrUpdate( hero_realm );
                  /*   Hero hero = new Hero(
                             heroList.get( i ).getItems(),
                             heroList.get( i ).getCategoryID(),
@@ -302,13 +362,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     );  */
 
-                    heroList2.add( hero );
-                   // hero_list_realm.add(herotoRealm );
-                }
+                    // hero_list_realm.add(herotoRealm );
 
-                adapter = new HeroAdapter( heroList2, getApplicationContext() );
-                recyclerView.setAdapter( adapter );
-save_into_database();
+             //   realm.close();
+
+//txtJson.setText( "tasnim" );
+
+                // realm.insertOrUpdate( hero );
     /*      Realm.init( getApplicationContext() );
                 RealmConfiguration config=new RealmConfiguration.Builder().build();
                 Realm.setDefaultConfiguration( config );
@@ -323,25 +383,6 @@ save_into_database();
                 realm.close();*/
 
 
-// programmatically check : data is inserted in to realm or not
-
-              //  String notesCount = String.valueOf( realm.where( Hero.class).findAll() );
-//readData();
-
-              //  Log.d("my first",notesCount);
-
-
-                //  storeHeroes( hero_list_realm );
-                //readData();
-
-
-                //  } catch (JSONException e) {
-                //  e.printStackTrace();
-                //}
-
-                //ListView listView = (ListView) findViewById( R.id.recyclerView );
-                //displaying the string array into listview
-                //listView.setAdapter( new ArrayAdapter <String>( getApplicationContext(), android.R.layout.simple_list_item_1, heroes ) );
             }
 
             @Override
@@ -352,14 +393,102 @@ save_into_database();
             }
         } );
 
-      //  realm=Realm.getDefaultInstance();
-     //   realm.beginTransaction();
-       // storeNewsList(heroList2);
-      //  realm.copyToRealmOrUpdate(heroList2);
-       // String notesCount = String.valueOf( realm.where( Hero.class).findAll() );
 
-        //Log.d("my first",notesCount);
-     //   realm.commitTransaction();
+        ImageButton loginpress = (ImageButton) findViewById( R.id.signin );
+
+        loginpress.setOnClickListener( new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View v) {
+
+                Intent intent2 = new Intent( MainActivity.this, signinpage.class );
+                MainActivity.this.startActivity( intent2 );
+            }
+        } );
+
+        ImageButton presscart = (ImageButton) findViewById( R.id.mycart );
+
+        presscart.setOnClickListener( new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View v) {
+
+                Intent intent3 = new Intent( MainActivity.this, usercart.class );
+                MainActivity.this.startActivity( intent3 );
+            }
+        } );
+
+        SearchView sv = (SearchView) findViewById( R.id.searchview );
+        sv.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
+
+            public boolean onQueryTextSubmit(String query) {
+
+
+                return true;
+            }
+
+            public boolean onQueryTextChange(String newText) {
+                // s2 = "http://letriobazaar.com/api/Item/Search/" + newText;
+                // MyAsyncTasksearch process = new MyAsyncTasksearch( s2 );
+                //  process.execute();
+                // Intent myIntent = new Intent( MainActivity.this, showitems.class );
+                //startActivityForResult( myIntent, 0 );
+                //   loadHeroes_search();
+
+
+                return true;
+            }
+        } );
+
+        //  sharingclass.sharedValue=s2;
+
+
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.nav_message:
+                getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, new MessageFragment() ).commit();
+                break;
+            case R.id.nav_smile:
+                getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, new ChatFragment() ).commit();
+                break;
+            case R.id.nav_menu:
+                Toast.makeText( this, "Send", Toast.LENGTH_SHORT ).show();
+                break;
+        }
+        drawer.closeDrawer( GravityCompat.START );
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (drawer.isDrawerOpen( GravityCompat.START )) {
+            drawer.closeDrawer( GravityCompat.START );
+        } else {
+            super.onBackPressed();
+        }
+    }
+}
+
+//  Hero hero = new Hero();
+
+//hero.setName( "tsh" );
+//hero.setImagePath( "yyy" );
+//hero.setDescription( "ffff" );
+//  realm.insertOrUpdate( hero );
+//save_into_database();
+//  realm=Realm.getDefaultInstance();
+//   realm.beginTransaction();
+// storeNewsList(heroList2);
+//  realm.copyToRealmOrUpdate(heroList2);
+// String notesCount = String.valueOf( realm.where( Hero.class).findAll() );
+
+//Log.d("my first",notesCount);
+//   realm.commitTransaction();
 
 
 /* RETROFIT
@@ -403,64 +532,35 @@ save_into_database();
 
           }
       });      RETROFIT */
-        ImageButton loginpress = (ImageButton) findViewById( R.id.signin );
+//   RealmResults <Hero_Realm> realmCities= realm.where(Hero_Realm.class).findAll();
+//fetching the data
+//  realmCities.load();
+//Log.e( "Tag",realmCities.toString() );
 
-        loginpress.setOnClickListener( new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+  /*  private void save_into_database() {
+       Realm realm=Realm.getDefaultInstance();
+        //.executeTransactionAsync(new Realm.Transaction() {
+        realm.executeTransaction(new Realm.Transaction() {
             @Override
-            public void onClick(View v) {
-
-                Intent intent2 = new Intent( MainActivity.this, signinpage.class );
-                MainActivity.this.startActivity( intent2 );
-            }
-        } );
-
-        ImageButton presscart = (ImageButton) findViewById( R.id.mycart );
-
-        presscart.setOnClickListener( new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onClick(View v) {
-
-                Intent intent3 = new Intent( MainActivity.this, usercart.class );
-                MainActivity.this.startActivity( intent3 );
-            }
-        } );
-
-        SearchView sv = (SearchView) findViewById( R.id.searchview );
-        sv.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
-
-            public boolean onQueryTextSubmit(String query) {
-
-
-                return true;
-            }
-
-            public boolean onQueryTextChange(String newText) {
-               // s2 = "http://letriobazaar.com/api/Item/Search/" + newText;
-               // MyAsyncTasksearch process = new MyAsyncTasksearch( s2 );
-              //  process.execute();
-               // Intent myIntent = new Intent( MainActivity.this, showitems.class );
-                //startActivityForResult( myIntent, 0 );
-             //   loadHeroes_search();
-
-
-                return true;
-            }
-        } );
-
-        //  sharingclass.sharedValue=s2;
-
-
-    }
-    private void save_into_database() {
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm bgRealm) {
-                Hero shop = bgRealm.createObject(Hero.class);
-           // shop.setTitle(title);
-            //    shop.setType(type);
-            }
+          //  public void execute(Realm bgRealm) {
+            public void execute(@NonNull Realm realm) {
+                Number currentIDNum = realm.where( Hero.class ).max( "id" );
+                int nextId;
+                if (currentIDNum == null) {
+                    nextId = 1;
+                } else {
+                    nextId = currentIDNum.intValue() + 1;
+                }
+                Hero hero = new Hero();
+                hero.setCategoryID( "9292" );
+                hero.setName( "tsh" );
+                hero.setImagePath( "yyy" );
+                hero.setDescription( "ffff" );
+                realm.insertOrUpdate( hero );
+                // Hero shop = bgRealm.createObject(Hero.class);
+                // shop.setTitle(title);
+                //    shop.setType(type);
+          /*  }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
@@ -470,15 +570,15 @@ save_into_database();
             @Override
             public void onError(Throwable error) {
                 Log.v("Database", error.getMessage());
-            }
-        });
-    }
+}
+            }   });
+    }*/
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
+                                     //  @Override
+                                     //protected void onDestroy() {
+                                     //  super.onDestroy();
+                                     //realm.close();
+                                     //}
 
     /*
     public void storeHeroes(final List<Hero> bookings) {
@@ -576,6 +676,26 @@ save_into_database();
     }
 
 */
+
+// programmatically check : data is inserted in to realm or not
+
+//  String notesCount = String.valueOf( realm.where( Hero.class).findAll() );
+//readData();
+
+//  Log.d("my first",notesCount);
+
+
+//  storeHeroes( hero_list_realm );
+//readData();
+
+
+//  } catch (JSONException e) {
+//  e.printStackTrace();
+//}
+
+//ListView listView = (ListView) findViewById( R.id.recyclerView );
+//displaying the string array into listview
+//listView.setAdapter( new ArrayAdapter <String>( getApplicationContext(), android.R.layout.simple_list_item_1, heroes ) );
    /* @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void storeNewsList(final List<Hero> newsList) {
 
@@ -606,35 +726,6 @@ save_into_database();
             });
         } */
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()){
-            case R.id.nav_message:
-             getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container,new MessageFragment()).commit();
-                break;
-            case R.id.nav_smile:
-                getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container,new ChatFragment()).commit();
-                break;
-            case R.id.nav_menu:
-                Toast.makeText( this,"Send",Toast.LENGTH_SHORT ).show();
-                break;
-        }
-        drawer.closeDrawer( GravityCompat.START );
-        return true;
-    }
-
-    @Override
-    public void onBackPressed( ){
-
-        if(drawer.isDrawerOpen( GravityCompat.START )){
-            drawer.closeDrawer( GravityCompat.START );
-        }
-        else {
-        super.onBackPressed();
-        }
-    }
-}
-
 /*Retrofit public void customm(List<Map <String, Object>> listnew1){
     CustomList arrayAdapter = new CustomList(this,listnew1);
      recyclerView.setAdapter( arrayAdapter);
@@ -664,6 +755,9 @@ save_into_database();
 
         String Title;
         String Desc;
+
+
+
 
 
         listrow(String title, String desc) {

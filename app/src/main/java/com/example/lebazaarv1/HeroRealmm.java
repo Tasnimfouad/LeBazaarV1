@@ -1,61 +1,56 @@
 package com.example.lebazaarv1;
 
 
+
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Hero  {
+
+public class HeroRealmm extends RealmObject  {
 
     private String CategoryID;
     private String Name;
     private String ImagePath;
     private String Description;
-   @PrimaryKey
-   private long id;
+    @PrimaryKey
+    private long id;
 
 // constructor and getters
 
 
-  public Hero(String categoryID, String name, String imagePath, String description) {
-        CategoryID = categoryID;
-        Name = name;
-        ImagePath = imagePath;
-        Description = description;
-    }
- public long getID(){return id;}
-public void setID(long id){this.id=id;}
+
+    public long getID(){return id;}
+    public void setID(long id){this.id=id;}
+
     public String getCategoryID() {
         return CategoryID;
     }
-
-    public String getName() {
-        return Name;
-    }
-
     public void setCategoryID(String categoryID) {
         CategoryID = categoryID;
+    }
+    public String getName() {
+        return Name;
     }
 
     public void setName(String name) {
         Name = name;
     }
 
+    public String getImagePath() {
+        return ImagePath;
+    }
     public void setImagePath(String imagePath) {
         ImagePath = imagePath;
+    }
+    public String getDescription() {
+        return Description;
     }
 
     public void setDescription(String description) {
         Description = description;
     }
 
-
-    public String getImagePath() {
-        return ImagePath;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
 
 
 }
