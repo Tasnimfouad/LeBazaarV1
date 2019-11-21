@@ -19,6 +19,8 @@ public class HeroRealmm extends RealmObject  {
 // constructor and getters
 
 
+    public HeroRealmm() {
+    }
 
     public long getID(){return id;}
     public void setID(long id){this.id=id;}

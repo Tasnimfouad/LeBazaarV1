@@ -14,8 +14,8 @@ public class TaskListApplication extends Application {
                 .migration(new MyMigration()) // Migration to run
                 .build();
 
-        Realm.deleteRealm( config );
-        Realm.removeDefaultConfiguration();
+       // Realm.deleteRealm( config );
+     //   Realm.removeDefaultConfiguration();
         Realm.setDefaultConfiguration(config);
 
 // This will automatically trigger the migration if needed

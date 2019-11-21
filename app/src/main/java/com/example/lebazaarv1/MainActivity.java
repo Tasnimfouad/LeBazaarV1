@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,8 @@ import java.util.Map;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     RecyclerView recyclerView1;
     HeroAdapter adapter;
     List <Hero> heroList2,heroList_search;
-
+    List<HeroRealmm> herorealmmm=new ArrayList <>();
     private RecyclerView.LayoutManager mLayoutManager;
     // ImageView image1 = (ImageView) findViewById(R.id.imageViewmain);
     // public static ListView mListView;
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     List <String> info2;
     //String[]  info2={"1","2","3"};
     int i;
-
+    RealmList <HeroRealmm> realmList = new RealmList<>();
 
 
     // nameArray[] nameary=new nameArray[count1];
@@ -239,13 +242,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                              nextId = currentIDNum.intValue() + 1;
                                          }*/
         loadHeroes();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void loadHeroes() {
 
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( Api_test.BASE_URL )
@@ -261,9 +263,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          //   public void onResponse(Call <List <Hero>> call, Response <List <Hero>> response) {
             public void onResponse(Call <List <Hero>> call, Response <List <Hero>> response) {
                  heroList = response.body();
-      //   RealmList <Hero> realmList = new RealmList <Hero>( (Hero) heroList );
 
-                HeroRealmm hero_realm = realm.createObject( HeroRealmm.class ,19 );
+
+
+
 
                 // add response to realm database
 
@@ -282,27 +285,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
                     );
-             Log.e( "Tag", "Saved" );
-                   hero_realm.setName( "nam" );
-             hero_realm.setCategoryID( "jj" );
-                    hero_realm.setImagePath( "jj" );
-                   hero_realm.setDescription( "hh" );
+                  // Realm realm1=Realm.getDefaultInstance();
+                   HeroRealmm herorealmm =new  HeroRealmm();
+                    herorealmm.setName(   heroList.get( i ).getCategoryID());
+                    herorealmm.setCategoryID(   heroList.get( i ).getName());
+                    herorealmm.setImagePath( heroList.get( i ).getImagePath());
+                    herorealmm.setDescription( heroList.get( i ).getDescription());
+
+                  //  herorealmmm.add( herorealmm );
+
+
+                    //RealmHelper realhelper=new RealmHelper( realm1);
+                    //realhelper.save( herorealmm );
+
 
 // programmatically check : data is inserted in to realm or not
 
                     heroList2.add( hero );
-
+                    realmList.add( herorealmm );
                 }
                 adapter = new HeroAdapter( heroList2, getApplicationContext());
                 recyclerView.setAdapter( adapter );
+            //    storeRealm( herorealmmm );
+//realm1.close();
+              //  Log.e( "Tag", realmList.where().toString());
 
               //   adapter = new HeroAdapter( heroList2, getApplicationContext() );
                 //recyclerView.setAdapter( adapter );
-          realm.copyToRealmOrUpdate( hero_realm);
-            realm.commitTransaction();
 
-
-               realm.close();
 
 
               //  Realm realm = Realm.getDefaultInstance();
@@ -393,7 +403,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } );
 
-
         ImageButton loginpress = (ImageButton) findViewById( R.id.signin );
 
         loginpress.setOnClickListener( new View.OnClickListener() {
@@ -442,15 +451,59 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //  sharingclass.sharedValue=s2;
 
-
     }
 
+    public void storeRealm(final List<HeroRealmm> heroRealm) {
+        Realm realm=Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+               // HeroRealmm student = realm.createObject(HeroRealmm.class);
+                realm.copyToRealmOrUpdate( heroRealm );
+            }
+        });
+    }
+public void readrealm(RealmList<HeroRealmm> heroRealmmlist2){
+
+    Realm realm1=Realm.getDefaultInstance();
+ //  RealmQuery <HeroRealmm> query = realm1.where(HeroRealmm.class);
+    RealmResults<HeroRealmm> contacts = realm1.where(HeroRealmm.class).findAll();
+
+  //  int size = contacts.size();
+   // for (int i = 0;i<size;i++){
+      // HeroRealmm contact = contacts.get(i);
+        RealmList<HeroRealmm> eMails = heroRealmmlist2;
+    Log.e( "Tag", eMails.toString());
+// Add query conditions:
+ // query.equalTo("Name", "Books");
+   // query.or().equalTo("name", "Peter");
+
+// Execute the query:
+  // RealmResults<HeroRealmm> result1 = query.findAll();
+  //  RealmResults<HeroRealmm> list= realm1.where(HeroRealmm.class).sort("Name").findAll();
+    //  RealmResults <HeroRealmm> list = realm1.where( HeroRealmm.class ).equalTo("ImagePath", "Furniture2.png").findAll();
+        if(realm1 != null) {
+        realm1.close();
+        }
+
+
+    // RealmResults<HeroRealmm> result32 = query.equalTo( "Name","Fashion" ).findAll();
+// Or alternatively do the same all at once (the "Fluent interface"):
+    // RealmResults<HeroRealmm> result1 = realm1.where(HeroRealmm.class).findAll();
+    //  RealmResults <HeroRealmm> result1 = realm1.where( HeroRealmm.class ).equalTo("name", "Fashion").findAll();
+    // HeroRealmm[] resultArray = result1.toArray(new HeroRealmm[result1.size()]);
+//    HeroRealmm[] resultArray = (HeroRealmm[]) result1.toArray();
+//    String[] stringArray = Arrays.copyOf(resultArray, resultArray.length, String[].class);
+    //String str = Arrays.toString(stringArray);
+
+}
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_message:
                 getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, new MessageFragment() ).commit();
+                readrealm( realmList );
                 break;
             case R.id.nav_smile:
                 getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, new ChatFragment() ).commit();
@@ -589,7 +642,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     } */
- /*   public void storeHeroes(final List<Hero> heroRealm) {
+  /* public void storeHeroes(final List<Hero> heroRealm) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -598,7 +651,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-    private void readData(){
+   private void readData(){
 
         RealmResults <Hero> students = realm.where( Hero.class ).findAll();
         //   RealmQuery<Student> students=realm.where( Student.class ).equalTo( "name","tasnim" );
