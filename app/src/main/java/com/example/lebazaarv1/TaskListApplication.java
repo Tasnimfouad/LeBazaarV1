@@ -11,9 +11,9 @@ public class TaskListApplication extends Application {
         super.onCreate();
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().schemaVersion(2) // Must be bumped when the schema changes
-                .migration(new MyMigration()) // Migration to run
+                .migration(new MyMigration()).deleteRealmIfMigrationNeeded()// Migration to run
                 .build();
-
+Realm.deleteRealm( config );
        // Realm.deleteRealm( config );
      //   Realm.removeDefaultConfiguration();
         Realm.setDefaultConfiguration(config);

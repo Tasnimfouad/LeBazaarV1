@@ -13,8 +13,8 @@ public class HeroRealmm extends RealmObject  {
     private String Name;
     private String ImagePath;
     private String Description;
-    @PrimaryKey
-    private long id;
+  @PrimaryKey
+  private int id;
 
 // constructor and getters
 
@@ -22,8 +22,8 @@ public class HeroRealmm extends RealmObject  {
     public HeroRealmm() {
     }
 
-    public long getID(){return id;}
-    public void setID(long id){this.id=id;}
+   public int getID(){return id;}
+ public void setID(int id){this.id=id;}
 
     public String getCategoryID() {
         return CategoryID;

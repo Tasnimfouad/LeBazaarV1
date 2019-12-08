@@ -1,47 +1,51 @@
 package com.example.lebazaarv1;
 
+import java.util.ArrayList;
+
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
+import io.realm.exceptions.RealmException;
 
 public class RealmHelper {
-
-    Realm realm;
-
+Realm realm=Realm.getDefaultInstance();
+    public ArrayList<HeroRealmm> latest=new ArrayList <>(  );
     public RealmHelper(Realm realm) {
-        this.realm = realm;
+
+        this.realm= realm;
     }
 
-    public void save(RealmList<HeroRealmm> herorealmlist) {
-Realm.getDefaultInstance();
-        try {
-            realm.beginTransaction();
-          //  HeroRealmm hero_realm = realm.createObject( HeroRealmm.class ,19 );
+    // Realm realm;
+RealmResults <HeroRealmm> heroRealmResults;
+Boolean saved=null;
 
-            realm.copyToRealmOrUpdate( herorealmlist);
-            realm.commitTransaction();
+    //Retrieve
+  /*  public void retrieveFromDB(){
+  //realm=Realm.getDefaultInstance();
+  realm.beginTransaction();
+        heroRealmResults=Realm.getDefaultInstance().where( HeroRealmm.class ).findAll();
+ realm.commitTransaction();
 
+    }*/
+//Refresh
+    public ArrayList<HeroRealmm> justRefresh(){
 
+        latest.clear();
+      //  realm.deleteRealm( Realm.getDefaultConfiguration() );
+        realm.beginTransaction();
+      //  realm.deleteRealm( Realm.getDefaultConfiguration() );
+        heroRealmResults=realm.where( HeroRealmm.class ).equalTo( "Name","Stationary" ).findAll();
+    //    latest.clear();
+        for(HeroRealmm saveherotoRealm:heroRealmResults){
 
-
-            // body of executeTransaction
-          //  realm.commitTransaction();
-        } catch(Exception e) {
-            if(realm.isInTransaction()) {
-                realm.cancelTransaction();
-           }
-            throw new RuntimeException(e);
+            latest.add( saveherotoRealm );
         }
-       // int N=10;   // whatever value you want
-        //Realm mRealm=Realm.getDefaultInstance();
 
-       // RealmResults<Example> list= mRealm.where(Example.class).findAll();
-      //  list.subList(0,N); Ascending Sorting
+        realm.commitTransaction();
+
+        return latest;
     }
 
-    public void read(HeroRealmm herorealmm) {
-
-
-    }
 
 
 }

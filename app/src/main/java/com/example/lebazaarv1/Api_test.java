@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 
 public interface Api_test {
     //String BASE_URL="http://simplifiedcoding.net/demos/";
-String BASE_URL="http://letriobazaar.com/api/Category/";
+
   // @GET("marvel")
   @GET("GetAll")
     Call <List <Hero>> getHeroes();

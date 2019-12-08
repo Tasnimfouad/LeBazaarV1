@@ -27,6 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class signup extends AppCompatActivity {
     private static Retrofit retrofit1 = null;
     Api_userRegistration apiInterface;
+    int flag=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -34,7 +35,7 @@ public class signup extends AppCompatActivity {
      //   Toolbar toolbar = findViewById( R.id.toolbar );
       //  setSupportActionBar( toolbar );
         apiInterface =getClient().create(Api_userRegistration.class);
-        Button signuppress = (Button) findViewById( R.id.signup );
+        final Button signuppress = (Button) findViewById( R.id.signup );
         Calendar cal = Calendar.getInstance();
         cal.set( Calendar.HOUR_OF_DAY,2);
         final Date date = cal.getTime();
@@ -42,19 +43,31 @@ public class signup extends AppCompatActivity {
     //  Log.d( "Tag",UUID.randomUUID().toString() );
         signuppress.setOnClickListener( new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
+
             @Override
             public void onClick(View v) {
 
-                    if (CommonMethod.isNetworkAvailable(signup.this))
-                        loginRetrofit2Api( UUID.fromString( "0f6a9710-9bd8-451a-95ec-1a2a55ad9dc4" ),"Sofia", "Yousri",
-                             "Tota","01111","tatatag","egyptian","0101",
-                                "tasnim","Sofia0312",false,false,0,true,""
-                                ,"",null);
-                    else
-                        CommonMethod.showAlert("Internet Connectivity Failure", signup.this);
+
+                //your code here
+                if (flag == 1) {
+                    signuppress.setEnabled( true );
+                    signuppress.setClickable( true );
+                }
+                    if (CommonMethod.isNetworkAvailable( signup.this )) {
+                        loginRetrofit2Api( UUID.randomUUID(), "Ashraf", "Saiedi",
+                                "Tota", "01111", "tatatag", "egyptian", "0101",
+                                "tasnim", "Sofia0312", false, false, 0, true, ""
+                                , "", null );
+                        flag = 0;
+                        signuppress.setEnabled( false);
+                        signuppress.setClickable( false );
+
+                    } else
+                        CommonMethod.showAlert( "Internet Connectivity Failure", signup.this );
                 }
 
-        });
+            });
             //    public static final String BASE_URL = "Your Base Url ";
               //  private Retrofit retrofit = null;
              //   public static Retrofit getClient () {
@@ -73,9 +86,6 @@ public class signup extends AppCompatActivity {
                 //}
                 //Intent intent3 = new Intent( MainActivity.this, usercart.class );
                 //MainActivity.this.startActivity( intent3 );
-
-
-
 
     }
 

@@ -44,9 +44,11 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:showAsAction="collapseActionView|ifRoom"
+                android:actionViewClass="android.support.v7.widget.SearchView"
                 android:orientation="horizontal">
 
-                <SearchView
+                <android.support.v7.widget.SearchView
 
 
                     android:id="@+id/searchview"
@@ -63,7 +65,7 @@
 
                     >
 
-                </SearchView>
+                </android.support.v7.widget.SearchView>
 
                 <ImageButton
                     android:id="@+id/signin"
@@ -99,7 +101,16 @@
                 android:orientation="vertical"
                 android:weightSum="1">
 
-
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/myFAB"
+                    android:layout_width="90dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_launcher_background"
+                    android:background="@drawable/bazarwhite"
+                    app:elevation="4dp"
+                    android:visibility="invisible"
+                    app:layout_anchorGravity="bottom|left|end"
+                    app:layout_anchor="@id/recyclerView"></android.support.design.widget.FloatingActionButton>
                 <android.support.v7.widget.RecyclerView
 
                     android:id="@+id/recyclerView"
