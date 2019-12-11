@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ProgressDialog pd;
     RecyclerView recyclerView;
     List <Hero> heroList;
+    List <Item_ModelDeclaration> List_Items;
+    List <Item_ModelDeclaration> List_itempreview;
     public static TextView txtJson;
     static String s2;
     private StaggeredGridLayoutManager _sGridLayoutManager;
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     final String URL_GET_DATA = "https://simplifiedcoding.net/demos/marvel/";
     RecyclerView recyclerView1;
     HeroAdapter adapter;
+    ItemAdapter itemadapter;
     String BASE_URL_main="http://letriobazaar.com/api/Category/";
     List <Hero> heroList2,heroList_search,heroList3;
     List<HeroRealmm> herorealmmm=new ArrayList <>();
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     RealmChangeListener realmChangeListener;
     FloatingActionButton myFab;
     MyAdapter myAdapter;
+    String BASE_URL_Item="http://www.letriobazaar.com/api/Item/";
     // ImageView image1 = (ImageView) findViewById(R.id.imageViewmain);
     // public static ListView mListView;
     Context context = this;
@@ -238,7 +242,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                 });
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(context, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        if(position==0){
+                        //    Toast.makeText( getApplicationContext(), "hello", Toast.LENGTH_SHORT ).show();
+                            loadHeroesItem();
+                           // Intent intent2 = new Intent( MainActivity.this, signinpage.class );
+                          //  MainActivity.this.startActivity( intent2 );
+                        }
+                        // do whatever
+                    }
 
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
       // recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
        // recyclerView.setLayoutManager(mLayoutManager);
 
@@ -247,8 +267,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Set the adapter for RecyclerView
 
-        heroList2 = new ArrayList <>();
+      //  heroList2 = new ArrayList <>();
         heroList_search=new ArrayList <>(  );
+
        /* Realm realm=Realm.getDefaultInstance();
         //.executeTransactionAsync(new Realm.Transaction() {
         realm.executeTransaction(new Realm.Transaction() {
@@ -268,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void loadHeroes() {
-
+heroList2=new ArrayList <>(  );
         final RealmHelper helper=new RealmHelper( realm );
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( BASE_URL_main )
@@ -426,7 +447,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } );
 
-        ImageButton loginpress = (ImageButton) findViewById( R.id.signin );
+
+
+            ImageButton loginpress = (ImageButton) findViewById( R.id.signin );
 
         loginpress.setOnClickListener( new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -708,9 +731,56 @@ realm.addChangeListener( realmChangeListener );
         //  sharingclass.sharedValue=s2;
 
 
+    private void loadHeroesItem() {
+
+        List_itempreview=new ArrayList <>(  );
+        Retrofit retrofit_Items = new Retrofit.Builder()
+                .baseUrl( BASE_URL_Item)
+                .addConverterFactory( GsonConverterFactory.create() ) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+        Api_items api_items = retrofit_Items.create(Api_items.class );
+
+        Call <List <Item_ModelDeclaration>> callitems = api_items.get_Items();
 
 
+        callitems.enqueue( new Callback <List <Item_ModelDeclaration>>() {
+            @Override
+            public void onResponse(Call <List <Item_ModelDeclaration>> call, Response <List <Item_ModelDeclaration>> response) {
+                List_Items = response.body();
 
+                for (int i = 0; i < List_Items.size(); i++) {
+
+                    Item_ModelDeclaration itemModelDeclaration= new Item_ModelDeclaration(
+
+                          List_Items.get( i ).getItemID(),
+                            List_Items.get( i ).getName(),
+                            List_Items.get( i ).getPrice(),
+                          List_Items.get( i ).getDescription(),
+                            List_Items.get( i ).getShopID(),
+                            List_Items.get( i ).getCategoryID(),
+                            List_Items.get( i ).getSortingOrder(),
+                           List_Items.get( i ).getImages(),
+                           List_Items.get( i ).getSizes(),
+                            List_Items.get( i ).getColours()
+
+                    );
+
+
+                   List_itempreview.add(itemModelDeclaration );
+                }
+                itemadapter = new ItemAdapter( List_itempreview, getApplicationContext() );
+                recyclerView.setAdapter( itemadapter );
+            }
+
+            @Override
+            public void onFailure(Call <List <Item_ModelDeclaration>> call, Throwable t) {
+                Toast.makeText( getApplicationContext(), "hello", Toast.LENGTH_SHORT ).show();
+
+
+            }
+        } );
+
+    }
 public void readrealm(RealmList<HeroRealmm> heroRealmmlist2){
 
         Realm realm1=Realm.getDefaultInstance();
@@ -760,13 +830,15 @@ realm.commitTransaction();
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_message:
-                getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, new MessageFragment() ).commit();
+                Toast.makeText( this, "Send", Toast.LENGTH_SHORT ).show();
+            //    getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, new MessageFragment() ).commit();
               //
                 //
                 //  readrealm( realmList );
                 break;
             case R.id.nav_smile:
-                getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, new ChatFragment() ).commit();
+                Toast.makeText( this, "Send", Toast.LENGTH_SHORT ).show();
+              //  getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, new ChatFragment() ).commit();
                 break;
             case R.id.nav_menu:
                 Toast.makeText( this, "Send", Toast.LENGTH_SHORT ).show();
@@ -776,13 +848,16 @@ realm.commitTransaction();
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onBackPressed() {
 
         if (drawer.isDrawerOpen( GravityCompat.START )) {
             drawer.closeDrawer( GravityCompat.START );
+            loadHeroes();
         } else {
-            super.onBackPressed();
+            loadHeroes();
+       //   super.onBackPressed();
         }
     }
     @Override
