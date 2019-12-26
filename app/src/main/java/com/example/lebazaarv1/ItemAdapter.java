@@ -33,7 +33,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         @Override
         public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from( parent.getContext() ).inflate( R.layout.list_layout_heroes2, parent, false );
+            View v = LayoutInflater.from( parent.getContext() ).inflate( R.layout.list_layout_heroes3, parent, false );
             return new com.example.lebazaarv1.ItemAdapter.ItemViewHolder( v );
         }
 
@@ -41,7 +41,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         public void onBindViewHolder(final com.example.lebazaarv1.ItemAdapter.ItemViewHolder holder, final int position) {
             Item_ModelDeclaration item= itemList.get( position );
             holder.textViewName.setText( item.getName() );
-
+            holder.textViewPrice.setText( Double.toString( item.getPrice()));
             // holder.textViewName.getLayoutParams().height = getRandomIntInRange(250,75);
             // holder.linearLayout.getLayoutParams().height = getRandomIntInRange(250,75);
             // Set a random color for TextView background
@@ -86,16 +86,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
-            TextView textViewName;    //, textViewRealName, textViewTeam, textViewFirstAppearance, textViewCreatedBy, textViewPublisher, textViewBio;
+            TextView textViewName;
+        TextView textViewPrice;                        //, textViewRealName, textViewTeam, textViewFirstAppearance, textViewCreatedBy, textViewPublisher, textViewBio;
             ImageView imageView;
            // LinearLayout linearLayout;
 
             ItemViewHolder(View itemView) {
                 super( itemView );
 
-                textViewName = (TextView) itemView.findViewById( R.id.textView1);
-
-                imageView = (ImageView) itemView.findViewById( R.id.imageView1 );
+                textViewName = (TextView) itemView.findViewById( R.id.textViewitem2);
+                textViewPrice = (TextView) itemView.findViewById( R.id.textViewitem);
+                imageView = (ImageView) itemView.findViewById( R.id.imageViewitem );
                 cardView1=(CardView)itemView.findViewById( R.id.cardView );
                 // linearLayout = (LinearLayout) itemView.findViewById( R.id.linearLayout );
             }}}

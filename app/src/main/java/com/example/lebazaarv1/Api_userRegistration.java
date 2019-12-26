@@ -11,7 +11,8 @@ public interface Api_userRegistration {
 
 
        // Call<LoginResponse> createUser(@Body LoginResponse login);
-        @POST("api/User")
+        @POST("api/User/PostUser")
         Call<SignupResponse> createUser(@Body SignupResponse login);
+
 
 }

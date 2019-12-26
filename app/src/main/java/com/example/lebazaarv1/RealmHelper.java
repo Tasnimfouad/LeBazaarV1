@@ -12,7 +12,7 @@ Realm realm=Realm.getDefaultInstance();
     public ArrayList<HeroRealmm> latest=new ArrayList <>(  );
     public RealmHelper(Realm realm) {
 
-        this.realm= realm;
+       this.realm= realm;
     }
 
     // Realm realm;
@@ -42,10 +42,20 @@ Boolean saved=null;
         }
 
         realm.commitTransaction();
-
+//realm.close();
         return latest;
     }
 
+    public void storeHeroes( HeroRealmm heroRealmm) {
+        // realmstore=Realm.getDefaultInstance();
+        realm.beginTransaction();
 
+
+        realm.copyToRealmOrUpdate( heroRealmm );
+        // HeroRealmm heroRealmm1 = realm.createObject(HeroRealmm.class); // Create managed objects directly
+        realm.commitTransaction();
+//realmstore.close();
+
+    }
 
 }

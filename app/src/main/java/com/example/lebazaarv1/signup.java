@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.common.hash.Hashing;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -34,7 +37,7 @@ public class signup extends AppCompatActivity {
         setContentView( R.layout.activity_signup );
      //   Toolbar toolbar = findViewById( R.id.toolbar );
       //  setSupportActionBar( toolbar );
-        apiInterface =getClient().create(Api_userRegistration.class);
+        //apiInterface =getClient().create(Api_userRegistration.class);
         final Button signuppress = (Button) findViewById( R.id.signup );
         Calendar cal = Calendar.getInstance();
         cal.set( Calendar.HOUR_OF_DAY,2);
@@ -42,13 +45,14 @@ public class signup extends AppCompatActivity {
      // final   UUID uid=UUID.fromString( "aa8125a9-d4b9-4ac1-9946-9f45079f1250" );
     //  Log.d( "Tag",UUID.randomUUID().toString() );
         signuppress.setOnClickListener( new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.KITKAT)
 
 
             @Override
             public void onClick(View v) {
 
-
+                final String hashed = Hashing.sha256()
+                        .hashString("1234", StandardCharsets.UTF_8).toString();
                 //your code here
                 if (flag == 1) {
                     signuppress.setEnabled( true );
@@ -57,7 +61,7 @@ public class signup extends AppCompatActivity {
                     if (CommonMethod.isNetworkAvailable( signup.this )) {
                         loginRetrofit2Api( UUID.randomUUID(), "Ashraf", "Saiedi",
                                 "Tota", "01111", "tatatag", "egyptian", "0101",
-                                "tasnim", "Sofia0312", false, false, 0, true, ""
+                                "Tasnim", hashed, false, false, 0, true, ""
                                 , "", null );
                         flag = 0;
                         signuppress.setEnabled( false);
@@ -94,7 +98,7 @@ public class signup extends AppCompatActivity {
 
             SignupResponse login = new SignupResponse( userID, firstName, middleName, lastName, mobile, email, nationality, additionalPhone, userName, password, isSeller, isAdmin, failedLoginCount,active, lastLoginDate, passwordKey, sellerRequestID );
 
-
+            apiInterface =getClient().create(Api_userRegistration.class);
             Call <SignupResponse> call1 = apiInterface.createUser( login );
             call1.enqueue( new Callback <SignupResponse>() {
                 @Override
