@@ -15,12 +15,12 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface Api_signin {
-    String BASE_URL_signin="http://letriobazaar.com/";
+    String BASE_URL_signin="http://letriobazaar.com/api/User/Signin/";
 
-    @FormUrlEncoded
+   // @FormUrlEncoded
     // Call<LoginResponse> createUser(@Body LoginResponse login);
    // @POST("api/User/Signin/Mai/03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4")
-    @GET("api/User/Signin/Mai/1234")
+    @GET("Mai/1234")
     Call <signinresponse> login();
  // Call <signinresponse> createUser(@Body signinresponse login);
   //  Call<signinresponse> login(@StringDef("UserName") String UserName, @String("Password") String Password);

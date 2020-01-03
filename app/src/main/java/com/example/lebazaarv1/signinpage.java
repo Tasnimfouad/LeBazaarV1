@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import okhttp3.OkHttpClient;
@@ -31,6 +33,7 @@ public class signinpage extends AppCompatActivity {
     private static Retrofit retrofit = null;
     Api_signin api_signin;
     int flag = 1;
+    List <signinresponse> signinresponseList;
     String hashed = Hashing.sha256()
             .hashString( "1234", StandardCharsets.UTF_8 ).toString();
 
@@ -69,7 +72,7 @@ public class signinpage extends AppCompatActivity {
         EditText Pass = (EditText) findViewById( R.id.enterpassword );
         //    String password=Pass.getText().toString();
         final Button signinbtn = (Button) findViewById( R.id.login );
-        api_signin = getClient().create( Api_signin.class );
+       // api_signin = getClient().create( Api_signin.class );
 
         // final   UUID uid=UUID.fromString( "aa8125a9-d4b9-4ac1-9946-9f45079f1250" );
         //  Log.d( "Tag",UUID.randomUUID().toString() );
@@ -126,13 +129,102 @@ public class signinpage extends AppCompatActivity {
 
     //  private void loginRetrofit2Api(UUID userID, String firstName, String middleName, String lastName, String mobile, String email, String nationality, String additionalPhone, String userName, String password, boolean isSeller, boolean isAdmin, int failedLoginCount, boolean active, String lastLoginDate, String passwordKey, String sellerRequestID, String address, String city, String street) {
     //private void loginRetrofit2Api(UUID userID, String firstName, String middleName, String lastName, String mobile, String email, String nationality, String additionalPhone, String userName, String password, boolean isSeller, boolean isAdmin, int failedLoginCount, boolean active, String lastLoginDate, String passwordKey, String sellerRequestID, String address, String city, String street) {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void loginRetrofit2Api() {
+
+           // heroList2=new ArrayList <>(  );
+            //  final RealmHelper helper=new RealmHelper( realm );
+        retrofit = new Retrofit.Builder()
+                .baseUrl( Api_signin.BASE_URL_signin )
+                .addConverterFactory( GsonConverterFactory.create() ) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+          //  Api_test api = retrofit.create( Api_test.class );
+        api_signin = retrofit.create( Api_signin.class );
+            Call < signinresponse> call = api_signin.login();
+
+
+            call.enqueue( new Callback <signinresponse>() {
+                @Override
+                //   public void onResponse(Call <List <Hero>> call, Response <List <Hero>> response) {
+                public void onResponse(Call <signinresponse> call, Response <signinresponse> response) {
+                    signinresponse  signinresponseobject= response.body();
+
+                    Log.e( "keshav", "loginResponse 1 --> " + signinresponseobject.getFirstName());
+                    Log.e( "keshav", "loginResponse 1 --> " + signinresponseobject.getUserName());
+                    Log.e( "keshav", "loginResponse 1 --> " + signinresponseobject.getUserID());
+                  Log.d( "keshav", "onResponse - Status : " + response.code() );
+
+                    Log.d( "keshav", "onResponse - Status : " + response.errorBody() );
+
+
+                  String responseCode = response.toString();
+                  //  Log.e( "keshav", "getResponseCode  -->  " + responseCode );
+                 //   Log.e( "keshav", "getUserName          -->  " + signinresponseList.get(0).getFirstName() );
+                  //  Log.e( "keshav", "getPassword       -->  " + signinresponseList.get( 1 ).getFirstName() );
+                    //  Log.e( "ResponseMessage", "getResponseMessage  -->  " + loginResponse.getResponseMessage() );
+                    if (responseCode != null && responseCode.equals( "500" )) {
+                        Toast.makeText( signinpage.this, "Please try again", Toast.LENGTH_SHORT ).show();
+                    } else if (responseCode != null && responseCode.equals( "404" )) {
+                        Toast.makeText( signinpage.this, "Invalid Login Details \n Please try again", Toast.LENGTH_SHORT ).show();
+                    } else if (responseCode != null && responseCode.equals( "409" )) {
+                        Toast.makeText( signinpage.this, "User already Exists", Toast.LENGTH_SHORT ).show();
+                    }
+
+
+    /*        for (int i = 0; i < signinresponseList.size(); i++) {
+
+
+                        signinresponse hero = new signinresponse(
+
+                                signinresponseList.get( i ).getUserID(),
+                                signinresponseList.get( i ).getFirstName(),
+                                signinresponseList.get( i ).getMiddleName(),
+                                signinresponseList.get( i ).getLastName(),
+                                signinresponseList.get( i ).getMobile(),
+                                signinresponseList.get( i ).getEmail(),
+                                signinresponseList.get( i ).getNationality(),
+                                signinresponseList.get( i ).getAdditionalPhone(),
+                                signinresponseList.get( i ).getUserName(),
+                                signinresponseList.get( i ).getPassword(),
+                                signinresponseList.get( i ).isSeller(),
+                                signinresponseList.get( i ).isAdmin(),
+                                signinresponseList.get( i ).getFailedLoginCount(),
+                                signinresponseList.get( i ).isActive(),
+                                signinresponseList.get( i ).getLastLoginDate(),
+                                signinresponseList.get( i ).getPasswordKey(),
+                                signinresponseList.get( i ).getSellerRequestID(),
+                                signinresponseList.get( i ).getAddress(),
+                                signinresponseList.get( i ).getCity(),
+                                signinresponseList.get( i ).getStreet(),
+                                signinresponseList.get( i ).getResponseCode(),
+                                signinresponseList.get( i ).getResponseMessage()
+
+
+                        );*/
+
+
+                        // heroList2.add( hero );
+
+                    }
+                @Override
+                public void onFailure(Call <signinresponse> call, Throwable t) {
+                    Toast.makeText( getApplicationContext(), "failure", Toast.LENGTH_SHORT ).show();
+                    Log.e( "keshav", t.getMessage());
+
+                }
+            } );
+                    // adapter = new HeroAdapter( heroList2, getApplicationContext());
+                    //recyclerView.setAdapter( adapter );
+
+
+                 }
 
       //  final signinresponse login = new signinresponse( userName, password );
 
 //signintodb send=new signintodb( userName,password );
 
-        Call <signinresponse> call1 = api_signin.login(  );
+  /*      Call <signinresponse> call1 = api_signin.login(  );
         call1.enqueue( new Callback <signinresponse>() {
             @Override
             public void onResponse(Call <signinresponse> call, Response <signinresponse> response) {
@@ -170,7 +262,7 @@ public class signinpage extends AppCompatActivity {
             }
         } );
     }
-
+*/
     //  public boolean checkValidation () {
     //String userId = " gvkghyvg";
     //String password = "iytfygvg";
@@ -188,7 +280,7 @@ public class signinpage extends AppCompatActivity {
     //     return true;
     //}
 
-    public static Retrofit getClient() {
+ /*   public static Retrofit getClient() {
 
    if (retrofit == null) {
               retrofit = new Retrofit.Builder()
@@ -198,5 +290,5 @@ public class signinpage extends AppCompatActivity {
         }
         return retrofit;
 
- }
+ }*/
 }

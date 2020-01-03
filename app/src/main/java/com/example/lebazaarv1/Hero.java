@@ -10,7 +10,7 @@ public class Hero  {
     private String Name;
     private String ImagePath;
     private String Description;
-   @PrimaryKey
+//   @PrimaryKey
    private long id;
 
 // constructor and getters

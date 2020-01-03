@@ -1,5 +1,6 @@
 package com.example.lebazaarv1;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -8,54 +9,76 @@ import java.util.UUID;
 public class signinresponse {
 
     @SerializedName("UserID")
+    @Expose
     public UUID UserID;
     @SerializedName("FirstName")
+    @Expose
     public String FirstName;
     @SerializedName("MiddleName")
+    @Expose
     public String MiddleName;
     @SerializedName("LastName")
+    @Expose
     public String LastName;
     @SerializedName("Mobile")
+    @Expose
     public String Mobile;
     @SerializedName("Email")
+    @Expose
     public String Email;
     @SerializedName("Nationality")
+    @Expose
     public String Nationality;
     @SerializedName("AdditionalPhone")
+    @Expose
     public String AdditionalPhone;
     @SerializedName("UserName")
+    @Expose
     public String UserName;
     @SerializedName("Password")
+    @Expose
     public String Password;
     @SerializedName("IsSeller")
+    @Expose
     public boolean IsSeller;
     @SerializedName("IsAdmin")
+    @Expose
     public boolean IsAdmin;
     @SerializedName("FailedLoginCount")
+    @Expose
     public int FailedLoginCount;
     @SerializedName("Active")
+    @Expose
     public boolean Active;
     @SerializedName("LastLoginDate")
+    @Expose
     public String LastLoginDate;
     @SerializedName("PasswordKey")
+    @Expose
     public String PasswordKey;
     @SerializedName("SellerRequestID")
+    @Expose
     public String SellerRequestID;
     @SerializedName("Address")
+    @Expose
     public String Address;
     @SerializedName("City")
+    @Expose
     public String City;
     @SerializedName("Street")
+    @Expose
     public String Street;
     @SerializedName("ResponseCode")
+    @Expose
     public String ResponseCode;
     @SerializedName("ResponseMessage")
+    @Expose
     public String ResponseMessage;
 
-    public signinresponse( String userName, String password) {
-
-        UserName = userName;
-        Password = password;
+   // public signinresponse( String userName, String password) {
+   public signinresponse( ) {
+      //  UserName = userName;
+      //  Password = password;
 
 
     }
